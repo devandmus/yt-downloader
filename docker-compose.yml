@@ -1,0 +1,17 @@
+services:
+  yt-downloader:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: yt-downloader
+    image: yt-downloader:latest
+    volumes:
+      - ./downloads:/downloads:rw  # Monta la carpeta downloads de tu máquina con permisos de escritura
+    environment:
+      - PYTHONUNBUFFERED=1  # Para ver logs en tiempo real
+    stdin_open: true
+    tty: true
+    entrypoint: ["python", "main.py"]
+
+
+

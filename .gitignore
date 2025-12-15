@@ -1,35 +1,38 @@
-# Entorno virtual
-venv/
-env/
-.venv/
-
-# Archivos descargados
-downloads/
-*.mp4
-*.mp3
-*.webm
-*.m4a
-*.mhtml
-
-# Archivos del sistema
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-
-# Archivos de Python
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 .Python
-build/
-develop-eggs/
+*.egg-info/
 dist/
-downloads/
+build/
+*.egg
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Downloads folder (user's downloaded videos)
+downloads/*
+!downloads/.gitkeep
+
+# Distribution / packaging
+.Python
+develop-eggs/
 eggs/
 .eggs/
 lib/
@@ -41,20 +44,39 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-MANIFEST
 
-# Archivos de configuración
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Docker
+.dockerignore
+docker-compose.override.yml
 
 # Logs
 *.log
 
-# Archivos temporales
-*.tmp
-*.temp
+# OS
+.DS_Store
+Thumbs.db
