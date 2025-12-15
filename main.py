@@ -11,6 +11,48 @@ from pathlib import Path
 import time
 import random
 from datetime import datetime
+from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
+
+def clean_youtube_url(url):
+    """
+    Limpia URLs de YouTube eliminando parámetros adicionales.
+    Convierte: https://www.youtube.com/watch?v=oBWjyFupj8w&list=RDoBWjyFupj8w&start_radio=1
+    En: https://www.youtube.com/watch?v=oBWjyFupj8w
+    """
+    try:
+        parsed = urlparse(url)
+        
+        # Solo procesar URLs de YouTube
+        if 'youtube.com' not in parsed.netloc and 'youtu.be' not in parsed.netloc:
+            return url
+        
+        # Para URLs de youtu.be (formato corto)
+        if 'youtu.be' in parsed.netloc:
+            video_id = parsed.path.lstrip('/')
+            return f"https://www.youtube.com/watch?v={video_id}"
+        
+        # Para URLs normales de YouTube
+        if parsed.path == '/watch':
+            query_params = parse_qs(parsed.query)
+            if 'v' in query_params:
+                video_id = query_params['v'][0]
+                # Reconstruir URL solo con el parámetro v
+                clean_query = urlencode({'v': video_id})
+                clean_url = urlunparse((
+                    parsed.scheme,
+                    parsed.netloc,
+                    parsed.path,
+                    parsed.params,
+                    clean_query,
+                    ''  # fragment
+                ))
+                return clean_url
+        
+        # Si no se puede limpiar, devolver la URL original
+        return url
+    except Exception:
+        # Si hay algún error, devolver la URL original
+        return url
 
 def progress_hook(d):
     """Hook para mostrar progreso en tiempo real con streaming"""
@@ -223,6 +265,9 @@ def interactive_mode():
                 print("❌ URL no válida. Debe comenzar con http:// o https://")
                 continue
             
+            # Limpiar URL de YouTube (eliminar parámetros adicionales)
+            url = clean_youtube_url(url)
+            
             # Obtener información del video
             print("\n🔍 Obteniendo información del video...")
             info = get_video_info_safe(url)
@@ -300,6 +345,8 @@ def main():
     # Si se pasan argumentos, usar modo comando (backward compatibility)
     if len(sys.argv) > 1:
         url = sys.argv[1]
+        # Limpiar URL de YouTube (eliminar parámetros adicionales)
+        url = clean_youtube_url(url)
         mode = sys.argv[2] if len(sys.argv) > 2 else "both"
         
         output_dir = "/downloads"
