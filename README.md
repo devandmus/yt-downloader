@@ -56,8 +56,13 @@ yt-downloader/
 ├── Dockerfile            # Imagen Docker
 ├── main.py               # Código principal
 ├── requirements.txt      # Dependencias
+├── docs/                 # 📚 Documentación técnica
+│   ├── AS_IS.md          # Estado actual del sistema (As-Is)
+│   └── COMPONENTS.md     # Referencia de componentes
 └── downloads/            # 📁 Archivos descargados
 ```
+
+> **Tech lead:** Ver [docs/AS_IS.md](docs/AS_IS.md) para documentación completa del estado As-Is.
 
 ## 🐛 Solución de Problemas
 
